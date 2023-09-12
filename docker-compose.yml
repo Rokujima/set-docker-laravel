@@ -1,0 +1,69 @@
+version: '3.8'
+services:
+  app:
+    container_name: c-laravel-app
+    build:
+      args:
+          user: rokujima
+          uid: 1000
+      context: ./app
+      dockerfile: ./Dockerfile
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www
+    env_file:
+      - ./volumes/apps/.env
+    volumes: 
+      - ./app:/var/www
+      - ./volumes/apps/.env:/var/www/.env
+      - ./volumes/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - internal_net
+    
+  nginx:
+    image: nginx:alpine
+    container_name: c-laravel-nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 80:80
+    volumes:
+      - ./app:/var/www
+      - ./volumes/nginx:/etc/nginx/conf.d/
+      # - ./volumes/nginx/nginx-logs:/var/log/nginx
+    networks:
+      - internal_net
+    depends_on:
+      - app
+
+  redis:
+    image: redis:latest
+    container_name: c-laravel-redis
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - ./volumes/redis/data:/data
+    networks:
+      - internal_net
+
+  mysql:
+    container_name: c-laravel-mysql
+    image: mysql:latest
+    ports:
+      - '3306:3306' # Expose the database on port 3306 (adjust if needed)
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    volumes:
+      - ./volumes/mysql/data:/data
+    env_file:
+      - ./volumes/mysql/.env
+    networks:
+      - internal_net
+
+networks:
+  internal_net:
+    driver: bridge
