@@ -161,11 +161,11 @@ Ini akan membuat dan menjalankan kontainer Docker sesuai dengan konfigurasi yang
 
 Buka browser Anda dan akses aplikasi Laravel melalui http://localhost. Anda sekarang seharusnya dapat mengakses dan mengembangkan proyek Laravel Anda dalam lingkungan Docker.
 # Catatan
-Pastikan Anda telah mengatur variabel lingkungan yang sesuai dalam file .env proyek Laravel Anda untuk menghubungkan ke database, jika diperlukan.
-
-Anda dapat menyesuaikan port yang digunakan dalam konfigurasi Docker Compose jika diperlukan.
-
-Jika Anda ingin mengakses kontainer secara interaktif, gunakan perintah docker exec -it NAMA_KONTAINER /bin/bash, di mana NAMA_KONTAINER adalah nama kontainer yang sesuai.
+1. Pastikan di folder app adalah folder laravel anda yang sudah ter-install
+2. Folder Volumes terdapat file - file config nginx, php dll 
+3. Pastikan Anda telah mengatur variabel lingkungan yang sesuai dalam file .env proyek Laravel Anda untuk menghubungkan ke database, jika diperlukan.
+4. Anda dapat menyesuaikan port yang digunakan dalam konfigurasi Docker Compose jika diperlukan.
+5. Jika Anda ingin mengakses kontainer secara interaktif, gunakan perintah docker exec -it NAMA_KONTAINER /bin/bash, di mana NAMA_KONTAINER adalah nama kontainer yang sesuai.
 
 Selamat mengembangkan proyek Laravel Anda dalam lingkungan Docker!
 
